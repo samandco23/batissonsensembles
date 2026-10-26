@@ -42,6 +42,11 @@ export async function syncContribution(
     const status = toInternalStatus(transaction.status);
 
     if (status === "pending") {
+      console.info(
+        `syncContribution ${contribution.id}: ` +
+          `always_pending txStatus=${transaction.status} ` +
+          `fapshi=${baseUrlForLog()}`,
+      );
       return { ok: true, status: contribution.status };
     }
 
@@ -50,10 +55,10 @@ export async function syncContribution(
         typeof transaction.amount === "number" &&
         transaction.amount !== contribution.amount
       ) {
-        // Anomalie : on ne valide pas, on laisse en pending pour vérification.
         console.error(
-          `syncContribution : montant incohérent pour ${contribution.id} ` +
-            `(attendu ${contribution.amount}, reçu ${transaction.amount})`,
+          `syncContribution ${contribution.id}: AMOUNT_MISMATCH ` +
+            `expected=${contribution.amount} received=${transaction.amount} ` +
+            `tx=${transaction.transId} fapshi=${baseUrlForLog()}`,
         );
         return { ok: false, error: "Montant incohérent — vérification requise." };
       }
@@ -63,7 +68,9 @@ export async function syncContribution(
         transaction.externalId !== contribution.id
       ) {
         console.error(
-          `syncContribution : externalId incohérent pour ${contribution.id}.`,
+          `syncContribution ${contribution.id}: EXTERNAL_ID_MISMATCH ` +
+            `expected=${contribution.id} received=${transaction.externalId} ` +
+            `tx=${transaction.transId}`,
         );
         return { ok: false, error: "Référence incohérente — vérification requise." };
       }
@@ -74,12 +81,23 @@ export async function syncContribution(
       data: { status },
     });
 
+    console.info(
+      `syncContribution ${contribution.id}: done status=${updated.status} ` +
+        `fapshiTx=${transaction.transId ?? "(none)"}`,
+    );
+
     return { ok: true, status: updated.status };
   } catch (error) {
     console.error(
-      "syncContribution :",
-      error instanceof Error ? error.message : error,
+      `syncContribution ${contribution.id}: FAIL ` +
+        `fapshiTx=${contribution.fapshiTxId ?? "(none)"} ` +
+        `${(error as Error).message ?? String(error)}`,
     );
     return { ok: false, error: "Statut indisponible pour le moment." };
   }
+}
+
+// Copie interne de baseUrl pour les logs, sans exporter la fonction depuis fapshi.
+function baseUrlForLog(): string {
+  return (process.env.FAPSHI_BASE_URL || "https://sandbox.fapshi.com").replace(/\/+$/, "");
 }

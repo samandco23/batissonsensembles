@@ -1,8 +1,12 @@
-import { createHash, timingSafeEqual } from "node:crypto";
+import { createHash, randomUUID, timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { syncContribution } from "@/lib/payments";
 import { isFapshiConfigured } from "@/lib/fapshi";
+
+function requestId(request: Request): string {
+  return (request.headers.get("x-request-id") ?? randomUUID()).slice(0, 12);
+}
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -17,22 +21,35 @@ function secretMatches(provided: string, expected: string): boolean {
 export async function POST(request: Request) {
   const expectedSecret = process.env.FAPSHI_WEBHOOK_SECRET;
 
+  const rid = requestId(request);
+
   if (!expectedSecret) {
-    console.error("Webhook Fapshi : FAPSHI_WEBHOOK_SECRET non configuré.");
+    console.error(
+      `[${rid}] webhook 503 WEBHOOK_NOT_CONFIGURED ` +
+        `remote=${request.headers.get("x-forwarded-for") ?? request.headers.get("x-real-ip") ?? "unknown"}`,
+    );
     return NextResponse.json(
-      { error: "Webhook non configuré." },
+      { error: "Webhook non configuré.", code: "WEBHOOK_NOT_CONFIGURED" },
       { status: 503 },
     );
   }
 
   const providedSecret = request.headers.get("x-wh-secret") ?? "";
   if (!providedSecret || !secretMatches(providedSecret, expectedSecret)) {
-    return NextResponse.json({ error: "Signature invalide." }, { status: 401 });
+    console.warn(
+      `[${rid}] webhook 401 WEBHOOK_BAD_SIGNATURE ` +
+        `remote=${request.headers.get("x-forwarded-for") ?? request.headers.get("x-real-ip") ?? "unknown"}`,
+    );
+    return NextResponse.json(
+      { error: "Signature invalide.", code: "WEBHOOK_BAD_SIGNATURE" },
+      { status: 401 },
+    );
   }
 
   if (!isFapshiConfigured()) {
+    console.error(`[${rid}] webhook 503 PAYMENT_NOT_CONFIGURED`);
     return NextResponse.json(
-      { error: "Paiement non configuré." },
+      { error: "Paiement non configuré.", code: "PAYMENT_NOT_CONFIGURED" },
       { status: 503 },
     );
   }
@@ -41,7 +58,11 @@ export async function POST(request: Request) {
   try {
     payload = (await request.json()) as Record<string, unknown>;
   } catch {
-    return NextResponse.json({ error: "Payload invalide." }, { status: 400 });
+    console.warn(`[${rid}] webhook 400 WEBHOOK_PAYLOAD_INVALID`);
+    return NextResponse.json(
+      { error: "Payload invalide.", code: "WEBHOOK_PAYLOAD_INVALID" },
+      { status: 400 },
+    );
   }
 
   const transId = typeof payload.transId === "string" ? payload.transId : null;
@@ -49,8 +70,12 @@ export async function POST(request: Request) {
     typeof payload.externalId === "string" ? payload.externalId : null;
 
   if (!transId && !externalId) {
+    console.warn(
+      `[${rid}] webhook 400 missing_identity ` +
+        `payload=${JSON.stringify({ transId, externalId }).slice(0, 200)}`,
+    );
     return NextResponse.json(
-      { error: "transId ou externalId requis." },
+      { error: "transId ou externalId requis.", code: "WEBHOOK_PAYLOAD_INVALID" },
       { status: 400 },
     );
   }
@@ -61,10 +86,10 @@ export async function POST(request: Request) {
 
   if (!contribution) {
     // On répond 200 : inutile que Fapshi réessaie pour une contribution inconnue.
-    console.warn("Webhook Fapshi : contribution inconnue", {
-      transId,
-      externalId,
-    });
+    console.warn(
+      `[${rid}] webhook 200 WEBHOOK_UNKNOWN_CONTRIBUTION matched=false ` +
+        `transId=${transId ?? "(none)"} externalId=${externalId ?? "(none)"}`,
+    );
     return NextResponse.json({ received: true, matched: false });
   }
 
@@ -75,13 +100,23 @@ export async function POST(request: Request) {
     });
   }
 
+  const resolvedTxId = transId ?? contribution.fapshiTxId;
+
   // Le payload n'est jamais cru sur parole : on revérifie via l'API Fapshi.
   const result = await syncContribution(contribution.id);
+
+  const resolvedStatus = result.ok ? result.status : "unverified";
+
+  console.info(
+    `[${rid}] webhook 200 handled matched=true ` +
+      `contrib=${contribution.id} resolvedTx=${resolvedTxId} ` +
+      `fapshiStatus=${resolvedStatus} ok=${result.ok}`,
+  );
 
   return NextResponse.json({
     received: true,
     matched: true,
-    status: result.ok ? result.status : "unverified",
+    status: resolvedStatus,
   });
 }
 

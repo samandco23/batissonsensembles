@@ -1,8 +1,13 @@
+import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { validateContribution, isValidEmail } from "@/lib/validation";
 import { initiatePay, isFapshiConfigured } from "@/lib/fapshi";
 import { referenceCode } from "@/lib/format";
+
+function requestId(request: Request): string {
+  return (request.headers.get("x-request-id") ?? randomUUID()).slice(0, 12);
+}
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -24,24 +29,33 @@ function rateLimited(ip: string): boolean {
 }
 
 export async function POST(request: Request) {
+  const rid = requestId(request);
   const ip =
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    request.headers.get("x-real-ip") ||
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    request.headers.get("x-real-ip") ??
     "unknown";
 
   if (rateLimited(ip)) {
+    console.warn(`[${rid}] initiate 429 RATE_LIMITED ip=${ip}`);
     return NextResponse.json(
-      { error: "Trop de tentatives. Réessayez dans une minute." },
+      {
+        error: "Trop de tentatives. Réessayez dans une minute.",
+        code: "RATE_LIMITED",
+      },
       { status: 429 },
     );
   }
 
   if (!isFapshiConfigured()) {
-    console.error("Initiate : FAPSHI_API_USER / FAPSHI_API_KEY manquants.");
+    console.error(
+      `[${rid}] initiate 503 PAYMENT_NOT_CONFIGURED ` +
+        `base=${process.env.FAPSHI_BASE_URL ?? "(absent)"} ip=${ip}`,
+    );
     return NextResponse.json(
       {
         error:
           "Le paiement Mobile Money n'est pas encore activé. Merci de réessayer plus tard.",
+        code: "PAYMENT_NOT_CONFIGURED",
       },
       { status: 503 },
     );
@@ -51,7 +65,10 @@ export async function POST(request: Request) {
   try {
     payload = await request.json();
   } catch {
-    return NextResponse.json({ error: "Requête invalide." }, { status: 400 });
+    return NextResponse.json(
+      { error: "Requête invalide.", code: "CONTRIBUTION_INVALID" },
+      { status: 400 },
+    );
   }
 
   const parsed = validateContribution(payload);
@@ -59,7 +76,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: parsed.error }, { status: 400 });
   }
 
-  const { firstName, lastName, contact, amount, isAnonymous } = parsed.value;
+  const { firstName, lastName, contact, amount, isAnonymous } =
+    parsed.value;
 
   const contribution = await prisma.contribution.create({
     data: {
@@ -73,7 +91,7 @@ export async function POST(request: Request) {
     select: { id: true },
   });
 
-  const origin = request.headers.get("origin") || new URL(request.url).origin;
+  const origin = request.headers.get("origin") ?? new URL(request.url).origin;
   const redirectUrl = `${origin}/confirm?ref=${contribution.id}`;
 
   try {
@@ -98,8 +116,11 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error(
-      "Initiate Fapshi :",
-      error instanceof Error ? error.message : error,
+      `[${rid}] initiate 502 PAYMENT_INIT_FAILED ` +
+        `contrib=${contribution.id} amount=${amount} ` +
+        `fapshi=${process.env.FAPSHI_BASE_URL ?? "(absent)"} ` +
+        `ip=${ip} ` +
+        `${(error as Error).message ?? String(error)}`,
     );
 
     await prisma.contribution
@@ -110,6 +131,7 @@ export async function POST(request: Request) {
       {
         error:
           "Impossible de démarrer le paiement Mobile Money. Vérifiez votre connexion et réessayez.",
+        code: "PAYMENT_INIT_FAILED",
       },
       { status: 502 },
     );
