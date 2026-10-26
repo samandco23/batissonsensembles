@@ -95,13 +95,57 @@ export async function POST(request: Request) {
   const redirectUrl = `${origin}/confirm?ref=${contribution.id}`;
 
   try {
+    let email: string | undefined;
+    try {
+      email = isValidEmail(contact) ? contact : undefined;
+    } catch (validationError) {
+      console.error(
+        `[${rid}] initiate 500 VALIDATION_ERROR ` +
+          `field=contact value=${String(contact).slice(0, 120)} ` +
+          `${(validationError as Error).message ?? String(validationError)}`,
+      );
+      await prisma.contribution
+        .update({
+          where: { id: contribution.id },
+          data: { status: "failed" },
+        })
+        .catch(() => undefined);
+
+      return NextResponse.json(
+        {
+          error:
+            "Donnée de contact non valide. Réessayez avec un email ou un numéro.",
+          code: "CONTRIBUTION_INVALID",
+        },
+        { status: 500 },
+      );
+    }
+
+    let reference: string;
+    try {
+      reference = referenceCode(contribution.id);
+    } catch (refError) {
+      console.error(
+        `[${rid}] initiate 500 REF_ERROR contrib=${contribution.id} ` +
+          `${(refError as Error).message ?? String(refError)}`,
+      );
+      return NextResponse.json(
+        {
+          error:
+            "Erreur interne lors de la création de votre référence.",
+          code: "INTERNAL_ERROR",
+        },
+        { status: 500 },
+      );
+    }
+
     const payment = await initiatePay({
       amount,
-      email: isValidEmail(contact) ? contact : undefined,
+      email,
       externalId: contribution.id,
-      userId: `contrib_${referenceCode(contribution.id)}`,
+      userId: `contrib_${reference}`,
       redirectUrl,
-      message: `Bâtissons Ensemble — contribution ${referenceCode(contribution.id)}`,
+      message: `Bâtissons Ensemble — contribution ${reference}`,
     });
 
     await prisma.contribution.update({
@@ -109,14 +153,20 @@ export async function POST(request: Request) {
       data: { fapshiTxId: payment.transId },
     });
 
+    console.info(
+      `[${rid}] initiate 200 ok contrib=${contribution.id} ` +
+        `amount=${amount} transId=${payment.transId} ` +
+        `fapshi=${process.env.FAPSHI_BASE_URL ?? "(absent)"} ip=${ip}`,
+    );
+
     return NextResponse.json({
       link: payment.link,
       transId: payment.transId,
-      reference: referenceCode(contribution.id),
+      reference,
     });
   } catch (error) {
     console.error(
-      `[${rid}] initiate 502 PAYMENT_INIT_FAILED ` +
+      `[${rid}] initiate 500 PAYMENT_INIT_FAILED ` +
         `contrib=${contribution.id} amount=${amount} ` +
         `fapshi=${process.env.FAPSHI_BASE_URL ?? "(absent)"} ` +
         `ip=${ip} ` +
