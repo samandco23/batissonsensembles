@@ -1,0 +1,149 @@
+@import "@fontsource/poppins/400.css";
+@import "@fontsource/poppins/500.css";
+@import "@fontsource/poppins/600.css";
+@import "@fontsource/poppins/700.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cream text-ink antialiased;
+    font-feature-settings: "kern" 1;
+  }
+
+  ::selection {
+    @apply bg-brand/25 text-ink;
+  }
+
+  :focus-visible {
+    outline: 2px solid #f2762e;
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-[1200px] px-5 sm:px-8;
+  }
+
+  .eyebrow {
+    @apply inline-block text-[11.5px] font-semibold uppercase tracking-[0.2em] text-brand;
+  }
+
+  .display-xl {
+    @apply font-display font-bold text-[2.35rem] leading-[1.1] tracking-[-0.015em] sm:text-[3rem] lg:text-[3.4rem];
+  }
+
+  .display-lg {
+    @apply font-display font-bold text-[1.9rem] leading-[1.18] tracking-[-0.01em] sm:text-[2.35rem] lg:text-[2.6rem];
+  }
+
+  .display-md {
+    @apply font-display font-semibold text-[1.4rem] leading-snug tracking-[-0.01em];
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-6 py-3 text-[13.5px] font-semibold uppercase tracking-[0.04em] transition
+      duration-200 focus-visible:outline-offset-4 disabled:cursor-not-allowed disabled:opacity-55;
+  }
+
+  .btn-primary {
+    @apply btn bg-brand text-white shadow-[0_6px_16px_-8px_rgba(242,118,46,0.9)] hover:bg-brand-dark active:translate-y-px;
+  }
+
+  .btn-outline {
+    @apply btn border-2 border-brand bg-transparent text-brand hover:bg-brand hover:text-white active:translate-y-px;
+  }
+
+  .btn-ghost {
+    @apply btn border border-line bg-white text-ink hover:border-ink/30 hover:bg-sand/60;
+  }
+
+  .btn-light {
+    @apply btn border-2 border-white/60 text-white hover:bg-white hover:text-ink;
+  }
+
+  .card {
+    @apply rounded-xl border border-line bg-white shadow-card;
+  }
+
+  .field-label {
+    @apply mb-2 block text-[12.5px] font-semibold uppercase tracking-[0.06em] text-ink-soft;
+  }
+
+  .field {
+    @apply w-full rounded-md border border-line bg-white px-4 py-3 text-[14.5px] text-ink placeholder:text-ink-muted/55
+      transition focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-3 py-1 text-[11px] font-semibold tracking-wide text-ink-soft;
+  }
+
+  .prose-legal {
+    @apply text-[14.5px] leading-7 text-ink-soft;
+  }
+  .prose-legal h2 {
+    @apply mb-3 mt-10 text-xl font-bold text-ink;
+  }
+  .prose-legal h3 {
+    @apply mb-2 mt-6 text-[15px] font-semibold text-ink;
+  }
+  .prose-legal p {
+    @apply mb-4;
+  }
+  .prose-legal ul {
+    @apply mb-5 list-disc space-y-2 pl-5;
+  }
+  .prose-legal a {
+    @apply font-medium text-brand underline underline-offset-2 hover:text-brand-dark;
+  }
+  .prose-legal strong {
+    @apply font-semibold text-ink;
+  }
+}
+
+@layer utilities {
+  .bg-dots {
+    background-image: radial-gradient(rgba(242, 118, 46, 0.55) 1.5px, transparent 1.5px);
+    background-size: 14px 14px;
+  }
+
+  .bg-dots-light {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+    background-size: 18px 18px;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  .image-cover {
+    @apply object-cover object-center;
+  }
+}

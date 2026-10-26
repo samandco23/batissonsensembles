@@ -1,0 +1,39 @@
+// Prisma schema — Bâtissons Ensemble
+// Docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Contribution {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  firstName   String?
+  lastName    String?
+  contact     String // email ou numéro de téléphone — jamais affiché publiquement
+  amount      Int // en FCFA
+  isAnonymous Boolean  @default(false)
+  status      String   @default("pending") // pending | successful | failed
+  fapshiTxId  String? // ID transaction Fapshi
+  isWinner    Boolean  @default(false)
+  winnerRank  Int? // 1 à 5
+
+  @@index([status])
+  @@index([createdAt])
+  @@index([fapshiTxId])
+  @@index([isWinner])
+}
+
+model DrawSession {
+  id                String   @id @default(cuid())
+  conductedAt       DateTime @default(now())
+  totalParticipants Int
+  totalCollected    Int      @default(0)
+  seedHash          String? // empreinte du tirage, pour l'audit
+}
