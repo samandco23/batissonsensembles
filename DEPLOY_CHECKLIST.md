@@ -2,7 +2,7 @@
 
 ## État actuel (après les derniers commits)
 
-- Dernier commit poussé : `3660741` — Ajouter script de vérification des variables critiques + checklist de déploiement
+- Dernier commit poussé : `fbb5178` — Mettre à jour DEPLOY_CHECKLIST.md avec l'état actuel
 - Build local : ✅ `npm run build` réussi (exit 0)
 - Typecheck : ✅ `tsc --noEmit` propre
 - Vérification variables : ❌ `npm run check:env` échoue — les variables critiques sont absentes de `.env`
@@ -30,6 +30,24 @@ vers Vercel.
 
 > `FAPSHI_BASE_URL` est déjà configurée en local (`https://sandbox.fapshi.com`) et
 > sur Vercel (`https://live.fapshi.com`).
+
+## Ce qui a été fait
+
+- `src/app/api/fapshi/initiate/route.ts` : la route est maintenant robuste. Tout
+  plantement (isValidEmail, referenceCode, initiatePay, DB) est catché et renvoie
+  une réponse JSON explicite avec code d'erreur, pas un 500 brûlé. Logs avec
+  requestId, IP, montant, transId, base URL Fapshi.
+- `scripts/check-env.sh` + `npm run check:env` : vérification de toutes les variables
+  critiques avant déploiement. Les secrets n'est ever affiché : seulement présence + longueur.
+- `DEPLOY_CHECKLIST.md` : ce fichier.
+
+## Ce qu'il reste à faire
+
+1. Configurer les variables manquantes sur Vercel (Settings → Environment Variables).
+2. Un nouveau déploiement Vercel est automatiquement créé après l'ajout des variables.
+3. Vérifier que le déploiement est `READY` dans l'onglet Deployments.
+4. Tester le formulaire `/contribute` : le bouton CONTRIBUER doit rediriger vers le
+   lien Fapshi, pas afficher d'erreur 500.
 
 ## Vérification locale avant déploiement
 
