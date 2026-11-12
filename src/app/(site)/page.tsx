@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { StatsBand } from "@/components/stats-band";
-import { ContributionForm } from "@/components/contribution-form";
 import { getPublicStats } from "@/lib/stats";
 import {
   DRAW_DATE_LABEL,
@@ -477,7 +476,13 @@ export default async function HomePage() {
                 Mobile Money
               </span>
             </div>
-            <ContributionForm />
+            <p className="mb-6 text-sm leading-6 text-ink-soft">
+              Le formulaire s&apos;ouvre dans une fenêtre sécurisée. Choisissez
+              votre montant et réglez directement par MTN MoMo ou Orange Money.
+            </p>
+            <Link href="/contribute" className="btn-primary w-full py-4">
+              Ouvrir le formulaire de contribution <span aria-hidden="true">→</span>
+            </Link>
           </div>
 
           <div className="text-white">
