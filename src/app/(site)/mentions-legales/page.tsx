@@ -45,8 +45,8 @@ export default function MentionsLegalesPage() {
           <ul>
             <li>Immatriculation : {LEGAL.registration}</li>
             <li>
-              Contact :{" "}
-              <a href={`mailto:${LEGAL.contactEmail}`}>{LEGAL.contactEmail}</a>
+              Service client :{" "}
+              <a href={LEGAL.contactPhoneHref}>{LEGAL.contactPhone}</a>
             </li>
             <li>Responsable de la publication : {LEGAL.publisher}</li>
           </ul>
@@ -106,8 +106,8 @@ export default function MentionsLegalesPage() {
           </p>
           <p>
             Pour exercer un droit d&apos;accès, de rectification, d&apos;effacement
-            ou d&apos;opposition, écrivez à{" "}
-            <a href={`mailto:${LEGAL.contactEmail}`}>{LEGAL.contactEmail}</a> en
+            ou d&apos;opposition, contactez le service client au{" "}
+            <a href={LEGAL.contactPhoneHref}>{LEGAL.contactPhone}</a> en
             précisant votre référence de contribution.
           </p>
 
@@ -139,8 +139,8 @@ export default function MentionsLegalesPage() {
           </p>
           <p>
             Les montants affichés proviennent directement des paiements confirmés
-            par le prestataire. En cas d&apos;écart constaté, écrivez à{" "}
-            <a href={`mailto:${LEGAL.contactEmail}`}>{LEGAL.contactEmail}</a> :
+            par le prestataire. En cas d&apos;écart constaté, contactez le service
+            client au <a href={LEGAL.contactPhoneHref}>{LEGAL.contactPhone}</a> :
             une correction est apportée après vérification.
           </p>
 

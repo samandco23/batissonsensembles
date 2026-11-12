@@ -105,7 +105,7 @@ export default function ReglementPage() {
               sort associé sont organisés par <strong>{LEGAL.entity}</strong>,{" "}
               {LEGAL.form}, dont le siège est situé à {LEGAL.address}. Les
               coordonnées de contact sont :{" "}
-              <a href={`mailto:${LEGAL.contactEmail}`}>{LEGAL.contactEmail}</a>.
+              <a href={LEGAL.contactPhoneHref}>{LEGAL.contactPhone}</a>.
             </p>
             <p>
               L&apos;organisateur agit en qualité d&apos;organisateur de
@@ -322,8 +322,8 @@ export default function ReglementPage() {
             <p>
               Jusqu&apos;à 7 jours avant la tenue effective du tirage, tout
               contributeur peut demander le remboursement intégral de sa
-              contribution, en écrivant à{" "}
-              <a href={`mailto:${LEGAL.contactEmail}`}>{LEGAL.contactEmail}</a>{" "}
+              contribution en contactant le service client au{" "}
+              <a href={LEGAL.contactPhoneHref}>{LEGAL.contactPhone}</a>{" "}
               avec sa référence de contribution. Le remboursement est effectué
               par Mobile Money dans un délai de 30 jours, et la contribution est
               alors retirée du tirage.
@@ -355,9 +355,9 @@ export default function ReglementPage() {
             </p>
             <p>
               Chaque personne dispose d&apos;un droit d&apos;accès, de
-              rectification, d&apos;effacement et d&apos;opposition, exerçable à
-              l&apos;adresse{" "}
-              <a href={`mailto:${LEGAL.contactEmail}`}>{LEGAL.contactEmail}</a>.
+              rectification, d&apos;effacement et d&apos;opposition, exerçable en
+              contactant le service client au{" "}
+              <a href={LEGAL.contactPhoneHref}>{LEGAL.contactPhone}</a>.
               Les contributeurs anonymes ne peuvent être identifiés publiquement ;
               leurs coordonnées restent accessibles à l&apos;organisateur pour la
               seule gestion du tirage.
@@ -379,10 +379,10 @@ export default function ReglementPage() {
               12. Droit applicable et réclamations
             </h2>
             <p>
-              Le présent règlement est soumis au droit camerounais. Toute
-              réclamation doit être adressée par écrit à{" "}
-              <a href={`mailto:${LEGAL.contactEmail}`}>{LEGAL.contactEmail}</a>{" "}
-              dans un délai de 30 jours suivant l&apos;événement concerné.
+              Le présent règlement est soumis au droit camerounais. Pour toute
+              réclamation dans un délai de 30 jours suivant l&apos;événement
+              concerné, contactez le service client au{" "}
+              <a href={LEGAL.contactPhoneHref}>{LEGAL.contactPhone}</a>.
               L&apos;organisateur s&apos;engage à répondre dans un délai de 15
               jours ouvrés.
             </p>
@@ -400,8 +400,8 @@ export default function ReglementPage() {
                 Besoin d&apos;une précision ?
               </p>
               <p className="mt-2 text-[14px] leading-6 text-ink-soft">
-                Écrivez à{" "}
-                <a href={`mailto:${LEGAL.contactEmail}`}>{LEGAL.contactEmail}</a>{" "}
+                Appelez le service client au{" "}
+                <a href={LEGAL.contactPhoneHref}>{LEGAL.contactPhone}</a>{" "}
                 en précisant votre référence de contribution. Les{" "}
                 <Link href="/mentions-legales">mentions légales</Link> détaillent
                 l&apos;éditeur du site et l&apos;hébergement.

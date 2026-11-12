@@ -31,14 +31,47 @@ export function SiteHeader() {
     setOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    const desktopQuery = window.matchMedia("(min-width: 1024px)");
+    const closeOnDesktop = () => {
+      if (desktopQuery.matches) setOpen(false);
+    };
+
+    desktopQuery.addEventListener("change", closeOnDesktop);
+    closeOnDesktop();
+    return () => desktopQuery.removeEventListener("change", closeOnDesktop);
+  }, []);
+
   return (
     <header className={`sticky top-0 ${open ? "z-[60]" : "z-40"} bg-white shadow-[0_1px_0_rgba(236,225,216,1)]`}>
       <div className="container-page flex h-16 items-center justify-between gap-4">
         <Link href="/" aria-label="Bâtissons Ensemble — accueil">
-          <Logo showWordmark={false} />
+          <Logo className="hidden lg:inline-flex" />
+          <Logo className="lg:hidden" showWordmark={false} />
         </Link>
 
-        <div className="flex items-center gap-2">
+        <nav className="hidden items-center gap-5 lg:flex" aria-label="Navigation principale">
+          {NAV.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="whitespace-nowrap text-sm font-medium text-ink-soft transition-colors hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-4"
+            >
+              {item.label}
+            </Link>
+          ))}
+          <Link
+            href="/mentions-legales"
+            className="whitespace-nowrap text-sm font-medium text-ink-soft transition-colors hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-4"
+          >
+            Mentions légales
+          </Link>
+          <Link href="/contribute" className="btn-primary whitespace-nowrap px-5 py-2.5 text-sm">
+            Contribuer
+          </Link>
+        </nav>
+
+        <div className="flex items-center gap-2 lg:hidden">
           <button
             type="button"
             onClick={() => setOpen((value) => !value)}
@@ -59,7 +92,7 @@ export function SiteHeader() {
       </div>
 
       {open && (
-        <div id="menu-mobile" className="fixed inset-0 z-[70]">
+        <div id="menu-mobile" className="fixed inset-0 z-[70] lg:hidden">
           <button
             type="button"
             className="absolute inset-0 h-full w-full bg-ink/45"

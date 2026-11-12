@@ -4,6 +4,25 @@
 #
 # Secrets : on n'affiche jamais le contenu, seulement la présence + la longueur.
 # Valeurs publiques (URL, email) : affichées en clair pour vérification.
+#
+# Ce script lit TOUJOURS .env du répertoire courant (y compris le sandbox local),
+# même si les vraies valeurs de prod sont définies dans l'UI Vercel.
+#
+# Ordonnance :
+#  - En local, on peut avoir DATABASE_URL / DIRECT_URL valides pour tester, tout en
+#    restant sans FAPSHI_API_USER / FAPSHI_API_KEY / FAPSHI_WEBHOOK_SECRET tant que
+#    le paiement sandbox n'est pas activé. Ce cas n'empêche pas les tests locaux.
+#  - Le script n'empêche PAS les tests locaux si FAPSHI_BASE_URL est présent mais
+#    que les trois variables Fapshi sont vides — il affiche un avertissement et sort
+#    avec succès (exit 0). Par contre, il sort avec erreur si une variable obligatoire
+#    de base de données, d'auth ou de site manque.
+#
+# Il ne retourne 0 (succès) que si toutes les vraies variables obligataires sont présentes :
+#  - FAPSHI_API_USER, FAPSHI_API_KEY, FAPSHI_WEBHOOK_SECRET
+#  - NEXTAUTH_SECRET, ADMIN_PASSWORD_HASH
+#  - DATABASE_URL, DIRECT_URL
+#  - NEXT_PUBLIC_BASE_URL, NEXT_PUBLIC_DRAW_DATE
+#  - NEXTAUTH_URL, ADMIN_EMAIL
 
 set -euo pipefail
 
@@ -79,7 +98,6 @@ echo
 echo "-- Site (variables publiques) --"
 check_plain     NEXT_PUBLIC_BASE_URL || any_fail=1
 check_plain     NEXT_PUBLIC_DRAW_DATE || any_fail=1
-check_plain     NEXT_PUBLIC_CONTACT_EMAIL || any_fail=1
 echo
 
 echo "=========================================="
@@ -101,7 +119,6 @@ if [ "$any_fail" -eq 1 ]; then
   echo "  Config   DIRECT_URL"
   echo "  Config   NEXT_PUBLIC_BASE_URL"
   echo "  Config   NEXT_PUBLIC_DRAW_DATE"
-  echo "  Config   NEXT_PUBLIC_CONTACT_EMAIL"
   exit 1
 fi
 

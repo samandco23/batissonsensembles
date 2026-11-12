@@ -19,14 +19,14 @@ vers Vercel.
 | `FAPSHI_API_KEY` | Secret | Idem |
 | `FAPSHI_WEBHOOK_SECRET` | Secret | Idem (section Webhook) |
 | `NEXTAUTH_SECRET` | Secret | Générer : `openssl rand -base64 32` |
-| `NEXTAUTH_URL` | Config | URL du site (ex : `https://batissonsensemble.tech` ou l'URL Vercel) |
-| `ADMIN_EMAIL` | Config | `admin@batissonsensemble.tech` (ou souhaité) |
+| `NEXTAUTH_URL` | Config | `https://batissonsensembles-2bv4.vercel.app` |
+| `ADMIN_EMAIL` | Config | Adresse du compte administrateur |
 | `ADMIN_PASSWORD_HASH` | Secret | `npm run hash -- 'MonMotDePasse'` |
 | `DATABASE_URL` | Config | Neon → Connection string (endpoint pooler) |
 | `DIRECT_URL` | Config | Neon → Connection string (endpoint direct, sans `-pooler`) |
 | `NEXT_PUBLIC_BASE_URL` | Config | Même URL que `NEXTAUTH_URL` |
 | `NEXT_PUBLIC_DRAW_DATE` | Config | Déjà dans `.env.example` : `2027-03-31T18:00:00+01:00` |
-| `NEXT_PUBLIC_CONTACT_EMAIL` | Config | Déjà dans `.env.example` : `contact@batissonsensemble.tech` |
+| `NEXT_PUBLIC_SITE_DOMAIN` | Config | `batissonsensembles-2bv4.vercel.app` (domaine `.org` pas encore acheté) |
 
 > `FAPSHI_BASE_URL` est déjà configurée en local (`https://sandbox.fapshi.com`) et
 > sur Vercel (`https://live.fapshi.com`).

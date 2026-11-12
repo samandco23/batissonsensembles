@@ -449,8 +449,8 @@ export default async function HomePage() {
               Le règlement complet
             </Link>{" "}
             ou{" "}
-            <a href={`mailto:${SITE.contactEmail}`} className="font-medium text-brand underline underline-offset-2">
-              écrivez-nous
+            <a href={SITE.supportPhoneHref} className="font-medium text-brand underline underline-offset-2">
+              appelez le service client au {SITE.supportPhone}
             </a>
             .
           </p>

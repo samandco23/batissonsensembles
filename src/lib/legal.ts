@@ -11,7 +11,8 @@ export const LEGAL = {
   address: "Douala, Cameroun",
   registration: "RCCM et NIU communiqués sur demande écrite",
   publisher: "La direction d'Alpha Omega Corporation",
-  contactEmail: SITE.contactEmail,
+  contactPhone: SITE.supportPhone,
+  contactPhoneHref: SITE.supportPhoneHref,
   host: {
     name: "Vercel Inc.",
     address: "440 N Barranca Ave #4133, Covina, CA 91723, États-Unis",

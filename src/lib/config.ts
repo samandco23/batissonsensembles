@@ -3,17 +3,22 @@
  * La mécanique (objectif, gains, tirage) est publique dès l'ouverture du site.
  */
 
+const SITE_DOMAIN = process.env.NEXT_PUBLIC_SITE_DOMAIN || "batissonsensembles-2bv4.vercel.app";
+
+const previewBaseUrl = `https://${SITE_DOMAIN}`;
+const configuredLocalBaseUrl =
+  process.env.NEXT_PUBLIC_BASE_URL ||
+  process.env.NEXTAUTH_URL ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
+
 export const SITE = {
   name: "Bâtissons Ensemble",
   tagline: "Une expérience sociale, pas une collecte ordinaire.",
   organizer: "Alpha Omega Corporation",
-  domain: "batissonsensemble.tech",
-  contactEmail:
-    process.env.NEXT_PUBLIC_CONTACT_EMAIL || "contact@batissonsensemble.tech",
-  baseUrl:
-    process.env.NEXT_PUBLIC_BASE_URL ||
-    process.env.NEXTAUTH_URL ||
-    "http://localhost:3000",
+  domain: SITE_DOMAIN,
+  supportPhone: "+237 688 208 803",
+  supportPhoneHref: "tel:+237688208803",
+  baseUrl: process.env.VERCEL_ENV === "production" ? previewBaseUrl : configuredLocalBaseUrl,
 } as const;
 
 /** Mécanique de l'expérience. */

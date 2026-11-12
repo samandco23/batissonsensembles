@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "skills": {
+    "brand": {
+      "source": "zstvns/design-skills",
+      "sourceType": "github",
+      "skillPath": "skills/brand/SKILL.md",
+      "computedHash": "b2f5cb39fbd9fdac68a2b876bf64560bc4e0239d74aaabc768b00aecc4a24859"
+    },
+    "brand-strategy": {
+      "source": "zstvns/design-skills",
+      "sourceType": "github",
+      "skillPath": "skills/brand-strategy/SKILL.md",
+      "computedHash": "6d96eee3e43218ad632991655983c14e76346d30ba89502b9ef286f8ef97f238"
+    },
+    "collateral-design": {
+      "source": "zstvns/design-skills",
+      "sourceType": "github",
+      "skillPath": "skills/collateral-design/SKILL.md",
+      "computedHash": "837f90830ee99ee15439cb8332b078319b2a884d7133bb3ff84f292d19d163a9"
+    },
+    "creative-direction": {
+      "source": "zstvns/design-skills",
+      "sourceType": "github",
+      "skillPath": "skills/creative-direction/SKILL.md",
+      "computedHash": "ca135307697f6fdb9fbd07dea80744e82b1916610d98ecc82d8e0ab3caf94c34"
+    },
+    "playwright": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/playwright/SKILL.md",
+      "computedHash": "595a334de3bd5335f442a33d1bdefb01207c88c99fe43e3bd99b0d5435f230de"
+    }
+  }
+}
