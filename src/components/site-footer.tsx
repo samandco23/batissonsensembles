@@ -74,7 +74,6 @@ export function SiteFooter() {
           <ul className="mt-4 space-y-2.5 text-[12.5px] text-ink-muted">
             <li><Link href="/mentions-legales" className="hover:text-brand">Mentions légales</Link></li>
             <li><a href={SITE.supportPhoneHref} className="hover:text-brand">Service client · {SITE.supportPhone}</a></li>
-            <li><Link href="/admin/login" className="hover:text-brand">Administration</Link></li>
             <li><span className="text-ink-muted/70">{SITE.domain}</span></li>
           </ul>
         </div>
