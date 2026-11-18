@@ -16,8 +16,8 @@ export const SITE = {
   tagline: "Une expérience sociale, pas une collecte ordinaire.",
   organizer: "Alpha Omega Corporation",
   domain: SITE_DOMAIN,
-  supportPhone: "+237 688 208 803",
-  supportPhoneHref: "tel:+237688208803",
+  supportPhone: "+237 653 021 373",
+  supportPhoneHref: "tel:+237653021373",
   baseUrl: process.env.VERCEL_ENV === "production" ? previewBaseUrl : configuredLocalBaseUrl,
 } as const;
 

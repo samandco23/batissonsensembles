@@ -21,7 +21,7 @@ La direction est éditoriale et chaleureuse : grands caractères, mise en page a
 - **Symbole :** l’arche posée sur une brique, dans un carré orange.
 - **Domaine souhaité :** `batissonsensemble.org` (achat non effectué à la date de la charte)
 - **Adresse actuellement en ligne :** `https://batissonsensembles-2bv4.vercel.app/`
-- **Service client :** `+237 688 208 803` — lien téléphonique `tel:+237688208803`
+- **Service client :** `+237 653 021 373` — lien téléphonique `tel:+237653021373`
 
 Conserver la forme du logo du site. Ne pas redessiner son arche, changer ses proportions, ajouter un effet 3D, un dégradé ou un contour décoratif.
 
@@ -80,7 +80,7 @@ Les grands titres sont compacts et lisibles à la taille d’un téléphone. Les
 - **Publication portrait :** une photo ou un grand chiffre, titre de 3 à 8 mots, bref complément, adresse du site.
 - **Story :** une idée par écran, texte dans une zone centrale dégagée, bouton d’action évident, numéro de service client dans le dernier écran.
 - **Mockup :** afficher la création dans un cadre de téléphone neutre, sans fausse interface de réseau social qui ferait passer le visuel pour une capture réelle.
-- **Contact :** écrire le numéro exactement ainsi : `+237 688 208 803`.
+- **Contact :** écrire le numéro exactement ainsi : `+237 653 021 373`.
 - **Domaine :** les créations actuelles utilisent `https://batissonsensembles-2bv4.vercel.app/`. `batissonsensemble.org` est souhaité, mais n’est pas encore acheté ; remplacer l’adresse dans les fichiers de campagne après son achat et sa configuration.
 
 ## Éléments éditoriaux vérifiés

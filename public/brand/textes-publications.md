@@ -8,7 +8,11 @@ Un projet tech peut commencer par une idée et grandir grâce à des gestes acce
 
 Découvrez le fonctionnement, les objectifs et les conditions sur le site : **[lien à mettre à jour]**.
 
-Une question ? Service client : **+237 688 208 803**.
+Si cette initiative vous parle, partagez cette publication avec une personne qui pourrait s’y intéresser.
+
+Lien : https://batissonsensembles-2bv4.vercel.app/contribute
+
+Une question ? Service client : **+237 653 021 373**.
 
 ## Publication — le projet en chiffres
 

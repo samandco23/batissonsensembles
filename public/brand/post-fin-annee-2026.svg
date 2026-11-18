@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350" role="img" aria-labelledby="title desc">
+ <title id="title">Bâtissons Ensemble — une année s’achève, une idée continue de grandir</title>
+ <desc id="desc">Affiche de fin d’année, photographie d’illustration, appel à découvrir le projet via le lien de la publication.</desc>
+ <defs><clipPath id="photo"><path d="M0 0h1080v710H0z"/></clipPath><linearGradient id="shade" x2="0" y2="1"><stop stop-color="#1E1E1E" stop-opacity=".04"/><stop offset="1" stop-color="#1E1E1E" stop-opacity=".68"/></linearGradient></defs>
+ <rect width="1080" height="1350" fill="#FDF8F3"/>
+ <image href="./yearend-photo-collage.png" x="0" y="0" width="1080" height="710" preserveAspectRatio="xMidYMin slice" clip-path="url(#photo)"/>
+ <rect width="1080" height="710" fill="url(#shade)"/>
+ <g transform="translate(72 62)"><rect width="52" height="52" rx="10" fill="#F2762E"/><path d="M12 39V25a14 14 0 0 1 28 0v14" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/><rect x="18" y="28" width="16" height="11" rx="1.5" fill="#fff"/></g>
+ <text x="140" y="86" font-family="Poppins,Arial,sans-serif" font-size="24" font-weight="700" fill="#fff">Bâtissons Ensemble</text>
+ <text x="140" y="113" font-family="Poppins,Arial,sans-serif" font-size="13" font-weight="600" letter-spacing="3" fill="#FDF8F3">UNE EXPÉRIENCE SOCIALE</text>
+ <text x="76" y="490" font-family="Poppins,Arial,sans-serif" font-size="20" font-weight="600" letter-spacing="3" fill="#fff">UNE ANNÉE S’ACHÈVE.</text>
+ <text x="76" y="558" font-family="Poppins,Arial,sans-serif" font-size="50" font-weight="700" fill="#fff">Une idée continue de grandir.</text>
+ <text x="78" y="670" font-family="Poppins,Arial,sans-serif" font-size="15" font-weight="500" fill="#fff">Image d’illustration</text>
+ <text x="76" y="819" font-family="Poppins,Arial,sans-serif" font-size="25" font-weight="600" fill="#D65C17">Et si la suite, nous la bâtissions ensemble ?</text>
+ <text x="78" y="880" font-family="Poppins,Arial,sans-serif" font-size="23" font-weight="400" fill="#3C3C3C">Un projet tech camerounais, un objectif partagé.</text>
+ <text x="78" y="921" font-family="Poppins,Arial,sans-serif" font-size="23" font-weight="400" fill="#3C3C3C">Votre contribution commence à 100 FCFA.</text>
+ <rect x="72" y="986" width="936" height="2" fill="#ECE1D8"/>
+ <text x="78" y="1058" font-family="Poppins,Arial,sans-serif" font-size="28" font-weight="700" fill="#1E1E1E">batissonsensembles-2bv4.vercel.app</text>
+ <text x="78" y="1101" font-family="Poppins,Arial,sans-serif" font-size="20" font-weight="500" fill="#3C3C3C">Service client  +237 653 021 373</text>
+ <rect x="72" y="1170" width="936" height="92" rx="12" fill="#F7EEE6"/>
+ <text x="104" y="1227" font-family="Poppins,Arial,sans-serif" font-size="20" font-weight="600" fill="#1E1E1E">Découvrez le projet et son règlement.</text>
+ <text x="78" y="1301" font-family="Poppins,Arial,sans-serif" font-size="15" font-weight="500" fill="#6E6A66">Cliquez sur le lien ci-dessous pour découvrir le projet. Partagez cette affiche si le projet vous parle.</text>
+</svg>
