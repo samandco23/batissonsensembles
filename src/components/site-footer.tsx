@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/logo";
-import { SITE, DRAW_DATE_LABEL } from "@/lib/config";
+import { SITE } from "@/lib/config";
 
 export function SiteFooter() {
   return (
@@ -9,11 +9,7 @@ export function SiteFooter() {
         <div>
           <Logo />
           <p className="mt-4 max-w-xs text-[13px] leading-6 text-ink-muted">
-            Une expérience sociale pour tester si nous pouvons bâtir ensemble une
-            start-up tech — 100 FCFA à la fois.
-          </p>
-          <p className="mt-4 text-[12px] leading-5 text-ink-muted">
-            Tirage au sort prévu le {DRAW_DATE_LABEL}.
+            Un projet tech à construire ensemble, 100 FCFA à la fois.
           </p>
           <div className="mt-5 flex gap-2">
             {[

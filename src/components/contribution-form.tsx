@@ -10,7 +10,6 @@ export function ContributionForm() {
   const [amount, setAmount] = useState<number>(EXPERIENCE.minContribution);
   const [customAmount, setCustomAmount] = useState("");
   const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [contact, setContact] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [pending, setPending] = useState(false);
@@ -59,7 +58,7 @@ export function ContributionForm() {
         body: JSON.stringify({
           amount,
           firstName: isAnonymous ? null : firstName,
-          lastName: isAnonymous ? null : lastName,
+          lastName: null,
           contact,
           isAnonymous,
         }),
@@ -83,9 +82,9 @@ export function ContributionForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-6" noValidate>
+    <form onSubmit={onSubmit} className="space-y-4" noValidate>
       <fieldset>
-        <legend className="field-label">Montant de votre contribution</legend>
+        <legend className="field-label">Montant</legend>
 
         <div className="grid grid-cols-4 gap-2">
           {PRESETS.map((value) => {
@@ -130,8 +129,7 @@ export function ContributionForm() {
         </div>
 
         <p className="mt-2 text-[12px] text-ink-muted">
-          Minimum {formatFcfa(EXPERIENCE.minContribution)} · Vous pouvez donner
-          davantage, et contribuer plusieurs fois.
+          Minimum {formatFcfa(EXPERIENCE.minContribution)}.
         </p>
       </fieldset>
 
@@ -146,53 +144,35 @@ export function ContributionForm() {
         />
         <span>
           <span className="block text-[14px] font-semibold text-ink">
-            Je souhaite rester anonyme
+            Je reste anonyme
           </span>
           <span className="mt-0.5 block text-[12.5px] leading-5 text-ink-muted">
-            Votre nom ne sera jamais affiché. Vous restez éligible au tirage via
-            un identifiant interne.
+            Mon nom ne sera pas affiché.
           </span>
         </span>
       </label>
 
       {!isAnonymous && (
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div>
-            <label htmlFor="firstName" className="field-label">
-              Prénom <span className="text-clay">*</span>
-            </label>
-            <input
-              id="firstName"
-              name="firstName"
-              autoComplete="given-name"
-              value={firstName}
-              onChange={(event) => setFirstName(event.target.value)}
-              placeholder="Awa"
-              maxLength={60}
-              className="field"
-            />
-          </div>
-          <div>
-            <label htmlFor="lastName" className="field-label">
-              Nom <span className="font-normal text-ink-muted">(optionnel)</span>
-            </label>
-            <input
-              id="lastName"
-              name="lastName"
-              autoComplete="family-name"
-              value={lastName}
-              onChange={(event) => setLastName(event.target.value)}
-              placeholder="Ndiaye"
-              maxLength={60}
-              className="field"
-            />
-          </div>
+        <div>
+          <label htmlFor="firstName" className="field-label">
+            Prénom <span className="text-clay">*</span>
+          </label>
+          <input
+            id="firstName"
+            name="firstName"
+            autoComplete="given-name"
+            value={firstName}
+            onChange={(event) => setFirstName(event.target.value)}
+            placeholder="Votre prénom"
+            maxLength={60}
+            className="field"
+          />
         </div>
       )}
 
       <div>
         <label htmlFor="contact" className="field-label">
-          Email ou numéro de téléphone <span className="text-clay">*</span>
+          Email ou téléphone <span className="text-clay">*</span>
         </label>
         <input
           id="contact"
@@ -200,13 +180,12 @@ export function ContributionForm() {
           autoComplete="email"
           value={contact}
           onChange={(event) => setContact(event.target.value)}
-          placeholder="awa@exemple.com ou +237 6XX XX XX XX"
+          placeholder="Email ou numéro de téléphone"
           className="field"
           aria-describedby="contact-help"
         />
         <p id="contact-help" className="mt-1.5 text-[12px] leading-5 text-ink-muted">
-          Obligatoire pour vous contacter si vous gagnez. Jamais affiché
-          publiquement.
+          Privé. Utilisé pour vous contacter si vous gagnez.
         </p>
       </div>
 
@@ -230,7 +209,7 @@ export function ContributionForm() {
           </>
         ) : (
           <>
-            Contribuer {formatFcfa(amount)} via Mobile Money
+            Continuer · {formatFcfa(amount)}
             <span aria-hidden="true">→</span>
           </>
         )}
@@ -238,14 +217,10 @@ export function ContributionForm() {
 
       <div className="space-y-2 text-center">
         <p className="text-[11.5px] text-ink-muted">
-          Paiement sécurisé par Fapshi — MTN MoMo & Orange Money
-        </p>
-        <p className="text-[11px] leading-5 text-ink-muted/80">
-          En contribuant, vous acceptez le{" "}
+          Paiement via Fapshi · MTN MoMo ou Orange Money ·{" "}
           <a href="/reglement" className="underline underline-offset-2 hover:text-ink">
-            règlement du tirage
+            Règlement
           </a>
-          .
         </p>
       </div>
     </form>
